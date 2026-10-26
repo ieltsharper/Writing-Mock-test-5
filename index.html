@@ -6,6 +6,24 @@
     <title>IELTS Writing Test Practice</title>
     
     <style>
+        /* IELTS Harper Portal look (orange and white): portal colour tokens, cards, buttons and
+           font. Same class names and layout as before; only the appearance changed. */
+        :root {
+            --page: #f7f5f2;
+            --card: #ffffff;
+            --line: #e7e5e4;
+            --ink: #1c1917;
+            --muted: #57534e;
+            --heading: #f96c1b;
+            --brand: #c2410c;
+            --brand-hover: #9a3412;
+            --on-brand: #ffffff;
+            --brand-soft: #fff7ed;
+            --ok: #065f46;
+            --ok-fill: #15803d;
+            --danger: #991b1b;
+        }
+
         /* ==================== RESET & BASE ==================== */
         * {
             margin: 0;
@@ -14,42 +32,48 @@
         }
 
         body {
-            font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
-            background-color: #f5f5f5;
+            font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--page);
+            color: var(--ink);
             overflow: hidden;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--brand);
+            outline-offset: 2px;
         }
 
         /* ==================== MODAL STYLES ==================== */
         .modal {
             position: fixed;
             z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            inset: 0;
+            background-color: rgba(28, 25, 23, 0.55);
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 16px;
         }
 
         .modal-content {
-            background-color: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            max-width: 500px;
-            width: 90%;
+            background-color: var(--card);
+            border: 1px solid var(--line);
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+            max-width: 480px;
+            width: 100%;
             text-align: center;
         }
 
         .modal-content h2 {
-            color: #333;
-            margin-bottom: 20px;
+            color: var(--heading);
+            font-size: 22px;
+            margin-bottom: 16px;
         }
 
         .modal-content p {
-            color: #666;
+            color: var(--muted);
             margin-bottom: 20px;
             line-height: 1.6;
         }
@@ -57,11 +81,21 @@
         .modal-content input[type="text"],
         .modal-content input[type="email"] {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 4px;
+            padding: 10px 12px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            font: inherit;
             font-size: 16px;
-            margin-bottom: 20px;
+            color: var(--ink);
+            background: var(--card);
+            margin-bottom: 14px;
+        }
+
+        .modal-content input[type="text"]:focus,
+        .modal-content input[type="email"]:focus {
+            outline: none;
+            border-color: var(--brand);
+            box-shadow: 0 0 0 3px var(--brand-soft);
         }
 
         .practice-mode-label {
@@ -69,35 +103,39 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            margin-bottom: 20px;
+            margin: 6px 0 20px;
             cursor: pointer;
-            color: #666;
+            color: var(--muted);
+            font-size: 14px;
         }
 
         .practice-mode-label input[type="checkbox"] {
             width: 18px;
             height: 18px;
             cursor: pointer;
+            accent-color: var(--brand);
         }
 
         .modal-content button {
-            background-color: #FF6B35;
-            color: white;
+            background-color: var(--brand);
+            color: var(--on-brand);
             border: none;
-            padding: 12px 30px;
-            font-size: 16px;
-            border-radius: 4px;
+            padding: 10px 28px;
+            font: inherit;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 12px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.15s;
         }
 
         .modal-content button:hover {
-            background-color: #e55a2b;
+            background-color: var(--brand-hover);
         }
 
         .modal-buttons {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             justify-content: center;
             margin-top: 20px;
         }
@@ -107,12 +145,49 @@
             max-width: 150px;
         }
 
+        /* "Cancel" in the confirm dialog: a quiet button next to Submit. */
+        .modal-buttons button:not(.submit-btn) {
+            background-color: var(--card);
+            color: var(--ink);
+            border: 1px solid var(--line);
+        }
+
+        .modal-buttons button:not(.submit-btn):hover {
+            background-color: var(--brand-soft);
+        }
+
         .submit-btn {
-            background-color: #4CAF50 !important;
+            background-color: var(--brand) !important;
         }
 
         .submit-btn:hover {
-            background-color: #45a049 !important;
+            background-color: var(--brand-hover) !important;
+        }
+
+        .brand-mark {
+            display: inline-grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--brand);
+            color: var(--on-brand);
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+        }
+
+        .portal-link {
+            display: inline-block;
+            margin-top: 18px;
+            color: var(--brand);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .portal-link:hover {
+            text-decoration: underline;
         }
 
         /* ==================== HEADER ==================== */
@@ -120,9 +195,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #fff;
+            background-color: var(--card);
             padding: 15px 30px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid var(--line);
             height: 70px;
         }
 
@@ -135,24 +210,33 @@
             text-align: center;
         }
 
-        .ielts-logo svg {
-            display: block;
+        .ielts-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ielts-logo .brand-name {
+            color: var(--heading);
+            font-weight: 700;
+            font-size: 16px;
         }
 
         .test-title {
             font-size: 18px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 5px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 2px;
         }
 
         .timer {
-            font-size: 16px;
-            color: #666;
+            font-size: 15px;
+            color: var(--muted);
+            font-variant-numeric: tabular-nums;
         }
 
         .timer.warning {
-            color: #ff4444;
+            color: var(--danger);
             font-weight: bold;
             animation: pulse 1s infinite;
         }
@@ -164,39 +248,46 @@
 
         .menu-btn {
             background: none;
-            border: none;
+            border: 1px solid var(--line);
+            border-radius: 12px;
             cursor: pointer;
-            padding: 5px;
+            padding: 10px 9px;
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 4px;
             float: right;
         }
 
         .menu-btn span {
             display: block;
-            width: 25px;
-            height: 3px;
-            background-color: #333;
+            width: 20px;
+            height: 2px;
+            background-color: var(--ink);
             border-radius: 2px;
-            transition: 0.3s;
+            transition: 0.2s;
+        }
+
+        .menu-btn:hover {
+            background-color: var(--brand-soft);
         }
 
         .menu-btn:hover span {
-            background-color: #FF6B35;
+            background-color: var(--brand);
         }
 
         .menu-dropdown {
             position: absolute;
             top: 70px;
             right: 30px;
-            background-color: white;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            border-radius: 4px;
+            background-color: var(--card);
+            border: 1px solid var(--line);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            border-radius: 12px;
             display: none;
             flex-direction: column;
             z-index: 100;
-            min-width: 180px;
+            min-width: 190px;
+            overflow: hidden;
         }
 
         .menu-dropdown.show {
@@ -204,18 +295,19 @@
         }
 
         .menu-dropdown button {
-            padding: 12px 20px;
+            padding: 12px 18px;
             border: none;
             background: none;
             text-align: left;
             cursor: pointer;
+            font: inherit;
             font-size: 14px;
-            color: #333;
-            transition: background-color 0.2s;
+            color: var(--ink);
+            transition: background-color 0.15s;
         }
 
         .menu-dropdown button:hover {
-            background-color: #f0f0f0;
+            background-color: var(--brand-soft);
         }
 
         /* ==================== MAIN CONTAINER ==================== */
@@ -227,140 +319,152 @@
 
         .question-panel {
             flex: 1;
-            background-color: #f9f9f9;
+            background-color: var(--page);
             padding: 30px;
             overflow-y: auto;
-            border-right: 1px solid #ddd;
+            border-right: 1px solid var(--line);
         }
 
         .task-header h2 {
-            color: #FF6B35;
+            color: var(--heading);
             font-size: 24px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .task-header p {
-            color: #666;
+            color: var(--muted);
             font-size: 14px;
             margin-bottom: 20px;
         }
 
-        .task-info h3 {
-            color: #333;
-            font-size: 18px;
-            margin-bottom: 10px;
+        .task-info {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 16px 20px;
         }
 
-        .task-info p {
-            color: #666;
-            font-size: 14px;
+        .task-info h3 {
+            color: var(--ink);
+            font-size: 17px;
             margin-bottom: 8px;
         }
 
+        .task-info p {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
         .task-content {
-            margin-top: 25px;
+            margin-top: 24px;
             line-height: 1.8;
-            color: #333;
+            color: var(--ink);
         }
 
         .task-content img {
             max-width: 100%;
             height: auto;
             margin: 20px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: #fff;
         }
 
         .resizer {
             width: 5px;
-            background-color: #ddd;
+            background-color: var(--line);
             cursor: col-resize;
             position: relative;
             transition: background-color 0.2s;
         }
 
         .resizer:hover {
-            background-color: #FF6B35;
+            background-color: var(--brand);
         }
 
         .answer-panel {
             flex: 1;
-            background-color: #fff;
+            background-color: var(--card);
             padding: 30px;
             display: flex;
             flex-direction: column;
         }
 
         .answer-header {
-            color: #FF6B35;
+            color: var(--heading);
             font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 15px;
+            font-weight: 700;
+            margin-bottom: 14px;
         }
 
         .answer-textarea {
             flex: 1;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 15px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 16px;
             font-size: 16px;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            line-height: 1.6;
+            font-family: inherit;
+            color: var(--ink);
+            background: var(--card);
+            line-height: 1.7;
             resize: none;
             outline: none;
-            transition: border-color 0.3s;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .answer-textarea:focus {
-            border-color: #FF6B35;
+            border-color: var(--brand);
+            box-shadow: 0 0 0 3px var(--brand-soft);
         }
 
         .answer-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--line);
         }
 
         .word-count {
             font-size: 14px;
-            color: #666;
+            color: var(--muted);
         }
 
         .word-count.reached {
-            color: #4CAF50;
+            color: var(--ok);
             font-weight: 600;
         }
 
         .task-navigation {
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
 
         .nav-btn {
             width: 40px;
             height: 40px;
-            border: 2px solid #ddd;
-            background-color: white;
-            border-radius: 4px;
+            border: 1px solid var(--line);
+            background-color: var(--card);
+            border-radius: 12px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 18px;
-            color: #333;
-            transition: all 0.3s;
+            color: var(--ink);
+            transition: all 0.15s;
         }
 
         .nav-btn:hover:not(:disabled) {
-            border-color: #FF6B35;
-            color: #FF6B35;
+            border-color: var(--brand);
+            color: var(--brand);
+            background-color: var(--brand-soft);
         }
 
         .nav-btn:disabled {
-            opacity: 0.3;
+            opacity: 0.35;
             cursor: not-allowed;
         }
 
@@ -369,14 +473,26 @@
             .main-container {
                 flex-direction: column;
             }
-            
+
             .resizer {
                 display: none;
             }
-            
+
             .question-panel, .answer-panel {
                 flex: none;
                 height: 50vh;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .test-header {
+                padding: 12px 16px;
+            }
+            .ielts-logo .brand-name {
+                display: none;
+            }
+            .question-panel, .answer-panel {
+                padding: 20px 16px;
             }
         }
 
@@ -387,18 +503,18 @@
 
         .question-panel::-webkit-scrollbar-track,
         .answer-textarea::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: transparent;
         }
 
         .question-panel::-webkit-scrollbar-thumb,
         .answer-textarea::-webkit-scrollbar-thumb {
-            background: #888;
+            background: #d6d3d1;
             border-radius: 4px;
         }
 
         .question-panel::-webkit-scrollbar-thumb:hover,
         .answer-textarea::-webkit-scrollbar-thumb:hover {
-            background: #555;
+            background: #a8a29e;
         }
 
         .hidden {
@@ -410,6 +526,7 @@
     <!-- ==================== STUDENT NAME MODAL ==================== -->
     <div id="studentModal" class="modal">
         <div class="modal-content">
+            <span class="brand-mark" aria-hidden="true" style="margin-bottom: 14px;">IH</span>
             <h2>IELTS Writing Test</h2>
             <p>Please enter your information to begin:</p>
             <input type="text" id="studentName" placeholder="Your full name" required>
@@ -419,6 +536,8 @@
                 Practice Mode (no timer, no submission)
             </label>
             <button onclick="startTest()">Start Test</button>
+            <br>
+            <a class="portal-link" href="https://ieltsharper.github.io/portal/">&larr; Back to IELTS Harper Portal</a>
         </div>
     </div>
 
@@ -427,14 +546,12 @@
         <header class="test-header">
             <div class="header-left">
                 <div class="ielts-logo">
-                    <svg width="40" height="40" viewBox="0 0 40 40">
-                        <circle cx="20" cy="20" r="18" fill="#FF6B35" stroke="#fff" stroke-width="2"/>
-                        <text x="20" y="26" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">IELTS</text>
-                    </svg>
+                    <span class="brand-mark" aria-hidden="true">IH</span>
+                    <span class="brand-name">IELTS Harper</span>
                 </div>
             </div>
             <div class="header-center">
-                <div class="test-title">Writing Mock Test 1</div>
+                <div class="test-title">Writing Mock Test 5</div>
                 <div class="timer" id="timer">60 minutes remaining</div>
             </div>
             <div class="header-right">
@@ -519,7 +636,7 @@
         const CONFIG = {
             teacherEmail: 'htkhanhlinh.teaching@gmail.com',
             web3formsKey: '1eacce8a-8493-4026-8cfc-f1db290586ed',  // Get from https://web3forms.com
-            testNumber: 'Writing Mock Test 1',
+            testNumber: 'Writing Mock Test 5',
             totalTimeMinutes: 60,
             warningTimeMinutes: 5
         };
